@@ -1,0 +1,30 @@
+{
+  "name": "js-number-formatter",
+  "version": "0.0.1",
+  "homepage": "https://github.com/jilouc/js-numberformatter",
+  "authors": [
+    "Jean-Luc Dagon <jldagon@cocoapps.fr>"
+  ],
+  "description": "Number and currency formatter inspired by Cocoa's NSNumberFormatter. Supports a wide range of locales.",
+  "main": "numberformatter.js",
+  "moduleType": [
+    "es6",
+    "node"
+  ],
+  "keywords": [
+    "number",
+    "currency",
+    "formatter",
+    "format",
+    "localized",
+    "locale"
+  ],
+  "license": "MIT",
+  "ignore": [
+    "**/.*",
+    "node_modules",
+    "bower_components",
+    "test",
+    "tests"
+  ]
+}
