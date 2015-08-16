@@ -11,9 +11,9 @@ The output is properly localized in the given locale (and defaults to the curren
 * **grouping separator**: symbol between logical groups in the number (e.g. `,` in the USA, but ` ` in France)
 * **grouping size**: size of these logical groups. Usually 3, but certain locales define a…
 * **secondary grouping size**: in some locales, the grouping size for larger numbers may be different. For a secondary grouping size of 2 and a grouping size of 3, `123456789` would be formatted as `12,34,56,789` for example.
-* **script**: not every locale is using a Latin script. In Egypt, `123,456` is written `١٢٣٬٤٥٦` for example.
+* **script**: not every locale is using a Latin script. In Egypt, `123,456` is written `١٢٣٬٤٥٦`.
 
-The currency symbol also depends on the locale: the symbol used in the country where the currency is in use (local symbol) is usually different from the one in usage in different countries. For exemple, the US dollar symbol is `$` in the USA, but `$US` in France. 
+The currency symbol also depends on the locale: the symbol used in the country where the currency is in use (local symbol) is usually different from the one in usage in different countries. For example, the US dollar symbol is `$` in the USA, but `$US` in France. 
 
 ## Basic usage
 
