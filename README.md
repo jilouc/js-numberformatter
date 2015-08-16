@@ -83,6 +83,27 @@ formatter.groupingSeparator = '🐮';
 formatter.stringFromNumber(1234567.89); // "1🐮234🐮567🐶89"
 ```
 
+This includes:
+
+* `decimalSeparator`
+* `groupingSeparator`
+* `groupingSize`
+* `secondaryGroupingSize`
+* `currencySymbol`
+* `minimumFractionDigits`
+* `maximumFractionDigits`
+* `positivePrefix`
+* `negativePrefix`
+* `script` with one of the following values: Latin, Arabic, Devanagari, Urdu, Myanmar, Bengali, Tibetan.	
+
+Locale and currency code can be changed using the setters:
+
+```js
+var formatter = new NumberFormatter();
+formatter.setLocale('de-de');
+formatter.setCurrencyCode('CNY');
+```
+
 ## Scripts
 
 NumberFormatter currently supports the following scripts:
