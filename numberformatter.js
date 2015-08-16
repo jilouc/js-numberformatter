@@ -25,10 +25,10 @@
 
     var NumberFormatter = function(locale) {
 
-        this.maximum_fraction_digits = -1;
-        this.minimum_fraction_digits = -1;
-        this.set_locale(locale);
-        this._read_currency_info(this.currency_code);
+        this.maximumFractionDigits = -1;
+        this.minimumFractionDigits = -1;
+        this.setLocale(locale);
+        this._readCurrencyInfo(this.currencyCode);
     };
 
     NumberFormatter.DEFAULT_LOCALE = 'en-us';
@@ -47,204 +47,204 @@
         MINUS_SIGN: '−'
     };
 
-    NumberFormatter.prototype._read_locale_info = function (locale) {
-        var locale_info = this._get_locale_info(locale);
-        this.decimal_separator = locale_info.DECIMAL_SEPARATOR;
-        this.grouping_separator = locale_info.GROUPING_SEPARATOR;
-        this.grouping_size = locale_info.GROUPING_SIZE;
-        this.secondary_grouping_size = locale_info.SECONDARY_GROUPING_SIZE;
-        this.positive_prefix = locale_info.POSITIVE_PREFIX;
-        this.negative_prefix = locale_info.NEGATIVE_PREFIX;
-        this.plus_sign = locale_info.PLUS_SIGN;
-        this.minus_sign = locale_info.MINUS_SIGN;
-        this.currency_format = locale_info.CURRENCY_FORMAT;
-        this.currency_code = locale_info.CURRENCY_CODE;
+    NumberFormatter.prototype._readLocaleInfo = function (locale) {
+        var localeInfo = this._getLocaleInfo(locale);
+        this.decimalSeparator = localeInfo.DECIMAL_SEPARATOR;
+        this.groupingSeparator = localeInfo.GROUPING_SEPARATOR;
+        this.groupingSize = localeInfo.GROUPING_SIZE;
+        this.secondaryGroupingSize = localeInfo.SECONDARY_GROUPING_SIZE;
+        this.positivePrefix = localeInfo.POSITIVE_PREFIX;
+        this.negativePrefix = localeInfo.NEGATIVE_PREFIX;
+        this.plusSign = localeInfo.PLUS_SIGN;
+        this.minusSign = localeInfo.MINUS_SIGN;
+        this.currencyFormat = localeInfo.CURRENCY_FORMAT;
+        this.currencyCode = localeInfo.CURRENCY_CODE;
     };
 
-    NumberFormatter.prototype._get_locale_info = function (locale) {
-        var default_locale_info = NumberFormatter.DEFAULT_LOCALE_INFO;
+    NumberFormatter.prototype._getLocaleInfo = function (locale) {
+        var defaultLocaleInfo = NumberFormatter.DEFAULT_LOCALE_INFO;
         if ((typeof locale === 'undefined') || !(locale in LOCALES_INFO)) {
-            return default_locale_info;
+            return defaultLocaleInfo;
         }
-        var locale_info = {};
+        var localeInfo = {};
         var l = LOCALES_INFO[locale];
-        locale_info.DECIMAL_SEPARATOR = l[0];
-        locale_info.GROUPING_SEPARATOR = l[1];
-        locale_info.GROUPING_SIZE = l[2];
-        locale_info.SECONDARY_GROUPING_SIZE = l[3];
-        locale_info.CURRENCY_FORMAT = l[4];
-        locale_info.CURRENCY_CODE = l[5];
+        localeInfo.DECIMAL_SEPARATOR = l[0];
+        localeInfo.GROUPING_SEPARATOR = l[1];
+        localeInfo.GROUPING_SIZE = l[2];
+        localeInfo.SECONDARY_GROUPING_SIZE = l[3];
+        localeInfo.CURRENCY_FORMAT = l[4];
+        localeInfo.CURRENCY_CODE = l[5];
         // ---
-        locale_info.POSITIVE_PREFIX = default_locale_info.POSITIVE_PREFIX;
-        locale_info.NEGATIVE_PREFIX = default_locale_info.NEGATIVE_PREFIX;
-        locale_info.PLUS_SIGN = default_locale_info.PLUS_SIGN;
-        locale_info.MINUS_SIGN = default_locale_info.MINUS_SIGN;
-        return locale_info;
+        localeInfo.POSITIVE_PREFIX = defaultLocaleInfo.POSITIVE_PREFIX;
+        localeInfo.NEGATIVE_PREFIX = defaultLocaleInfo.NEGATIVE_PREFIX;
+        localeInfo.PLUS_SIGN = defaultLocaleInfo.PLUS_SIGN;
+        localeInfo.MINUS_SIGN = defaultLocaleInfo.MINUS_SIGN;
+        return localeInfo;
     };
 
-    NumberFormatter.prototype._read_currency_info = function(currency_code) {
-        var currency_info = CURRENCIES_INFO[currency_code];
-        var available_local_symbols = currency_info[1];
-        this.currency_maximum_fraction_digits = currency_info[0];
+    NumberFormatter.prototype._readCurrencyInfo = function(currencyCode) {
+        var currencyInfo = CURRENCIES_INFO[currencyCode];
+        var availableLocalSymbols = currencyInfo[1];
+        this.currencyMaximumFractionDigits = currencyInfo[0];
         var locale = this.locale;
-        if (!(locale in available_local_symbols)) {
+        if (!(locale in availableLocalSymbols)) {
             locale = locale.split('-')[0];
         }
-        var currency_symbol;
-        if (!(locale in available_local_symbols)) {
-            currency_symbol = currency_info[2];
+        var currencySymbol;
+        if (!(locale in availableLocalSymbols)) {
+            currencySymbol = currencyInfo[2];
         } else {
-            currency_symbol = available_local_symbols[locale];
+            currencySymbol = availableLocalSymbols[locale];
         }
-        if (currency_symbol.length === 0) {
-            currency_symbol = currency_info[3];
+        if (currencySymbol.length === 0) {
+            currencySymbol = currencyInfo[3];
         }
-        this.currency_symbol = currency_symbol;
+        this.currencySymbol = currencySymbol;
     };
 
-    NumberFormatter.prototype._determine_best_locale = function () {
-        var nav_language = (navigator.language || navigator.userLanguage).toLowerCase();
-        if (!(nav_language in LOCALES_INFO)) {
-            nav_language = nav_language.split('-')[0];
+    NumberFormatter.prototype._determineBestLocale = function () {
+        var navLanguage = (navigator.language || navigator.userLanguage).toLowerCase();
+        if (!(navLanguage in LOCALES_INFO)) {
+            navLanguage = navLanguage.split('-')[0];
         }
-        if (!(nav_language in LOCALES_INFO)) {
-            nav_language = this.DEFAULT_LOCALE;
+        if (!(navLanguage in LOCALES_INFO)) {
+            navLanguage = this.DEFAULT_LOCALE;
         }
-        return nav_language;
+        return navLanguage;
     };
 
-    NumberFormatter.prototype._script_for_locale = function(locale) {
+    NumberFormatter.prototype._scriptForLocale = function(locale) {
         if (!(locale in LOCALES_SCRIPTS)) {
             return this.DEFAULT_SCRIPT;
         }
         return LOCALES_SCRIPTS[locale];
     };
 
-    NumberFormatter.prototype._transform_to_script = function(number_str, script_name) {
-        if (script_name === this.DEFAULT_SCRIPT) {
-            return number_str;
+    NumberFormatter.prototype._transformToScript = function(numberStr, scriptName) {
+        if (scriptName === this.DEFAULT_SCRIPT) {
+            return numberStr;
         }
-        if (!(script_name in NUMBERS_SCRIPTS)) {
-            return number_str;
+        if (!(scriptName in NUMBERS_SCRIPTS)) {
+            return numberStr;
         }
-        var script_numbers = NUMBERS_SCRIPTS[script_name];
-        return number_str.split('').map(function(e) {
+        var scriptNumbers = NUMBERS_SCRIPTS[scriptName];
+        return numberStr.split('').map(function(e) {
             if (e === '.') {
                 return e;
             }
-            return script_numbers[e];
+            return scriptNumbers[e];
         }).reduce(function(val, e) {
             return '' + val + e;
         }, '');
     };
 
-    NumberFormatter.prototype.set_locale = function(locale) {
+    NumberFormatter.prototype.setLocale = function(locale) {
         if (typeof locale === 'undefined') {
-            locale = this._determine_best_locale();
+            locale = this._determineBestLocale();
         }
         this.locale = locale;
-        this._read_locale_info(locale);
-        this.script = this._script_for_locale(locale);
+        this._readLocaleInfo(locale);
+        this.script = this._scriptForLocale(locale);
     };
 
-    NumberFormatter.prototype.set_currency_code = function(currency_code) {
-        if (_test_is_empty_string(currency_code) || !(currency_code in CURRENCIES_INFO)) {
-            currency_code = this.currency_code;
+    NumberFormatter.prototype.setCurrencyCode = function(currencyCode) {
+        if (_isEmptyString(currencyCode) || !(currencyCode in CURRENCIES_INFO)) {
+            currencyCode = this.currencyCode;
         }
-        if (_test_is_empty_string(currency_code) || !(currency_code in CURRENCIES_INFO)) {
-            currency_code = NumberFormatter.locale.CURRENCY_CODE;
+        if (_isEmptyString(currencyCode) || !(currencyCode in CURRENCIES_INFO)) {
+            currencyCode = NumberFormatter.locale.CURRENCY_CODE;
         }
-        this.currency_code = currency_code;
-        this._read_currency_info(currency_code);
+        this.currencyCode = currencyCode;
+        this._readCurrencyInfo(currencyCode);
     };
 
-    NumberFormatter.prototype.string_from_number = function(number) {
+    NumberFormatter.prototype.stringFromNumber = function(number) {
         number = parseFloat(number);
-        var is_negative = (number < 0);
-        var prefix = (is_negative ? this.negative_prefix : this.positive_prefix) || '';
+        var isNegative = (number < 0);
+        var prefix = (isNegative ? this.negativePrefix : this.positivePrefix) || '';
 
         number = Math.abs(number);
-        var number_str = '';
-        if (this.maximum_fraction_digits >= 0) {
-            var fixed_fraction_digits = this.maximum_fraction_digits;
-            if (this.minimum_fraction_digits >= 0) {
-                fixed_fraction_digits = Math.min(fixed_fraction_digits, this.minimum_fraction_digits);
+        var numberStr = '';
+        if (this.maximumFractionDigits >= 0) {
+            var fixedFractionDigits = this.maximumFractionDigits;
+            if (this.minimumFractionDigits >= 0) {
+                fixedFractionDigits = Math.min(fixedFractionDigits, this.minimumFractionDigits);
             }
-            number_str = number.toFixed(fixed_fraction_digits);
+            numberStr = number.toFixed(fixedFractionDigits);
         } else {
-            if (this.minimum_fraction_digits >= 0) {
-                number_str = number.toFixed(this.minimum_fraction_digits);
+            if (this.minimumFractionDigits >= 0) {
+                numberStr = number.toFixed(this.minimumFractionDigits);
             } else {
-                number_str = number.toString();
+                numberStr = number.toString();
             }
         }
-        number_str = this._transform_to_script(number_str, this.script);
+        numberStr = this._transformToScript(numberStr, this.script);
 
-        var integer_part_size = number.toFixed(0).length;
-        var fraction_part_start = Math.min(number_str.length, integer_part_size + 1);
-        var integer_part = number_str.substr(0, integer_part_size);
-        var fraction_part = number_str.substr(fraction_part_start);
+        var integerPartSize = number.toFixed(0).length;
+        var fractionPartStart = Math.min(numberStr.length, integerPartSize + 1);
+        var integerPart = numberStr.substr(0, integerPartSize);
+        var fractionPart = numberStr.substr(fractionPartStart);
 
         var groups = [];
-        var grouping_size = this.grouping_size;
+        var groupingSize = this.groupingSize;
 
-        if (grouping_size === 0 || integer_part.length <= grouping_size) {
-            groups.push(integer_part);
+        if (groupingSize === 0 || integerPart.length <= groupingSize) {
+            groups.push(integerPart);
         } else {
-            var i = integer_part.length - grouping_size;
+            var i = integerPart.length - groupingSize;
             while (true) {
-                groups.push(integer_part.substr(i, grouping_size));
-                if (this.secondary_grouping_size > 0) {
-                    grouping_size = this.secondary_grouping_size;
+                groups.push(integerPart.substr(i, groupingSize));
+                if (this.secondaryGroupingSize > 0) {
+                    groupingSize = this.secondaryGroupingSize;
                 }
-                i -= grouping_size;
+                i -= groupingSize;
                 if (i <= 0) {
-                    groups.push(integer_part.substr(0, i + grouping_size));
+                    groups.push(integerPart.substr(0, i + groupingSize));
                     break;
                 }
             }
         }
 
         var res = '' + prefix;
-        res += groups.reverse().join(this.grouping_separator);
-        res += (fraction_part.length > 0 ? this.decimal_separator : '');
-        res += fraction_part;
+        res += groups.reverse().join(this.groupingSeparator);
+        res += (fractionPart.length > 0 ? this.decimalSeparator : '');
+        res += fractionPart;
         return res;
     };
 
-    NumberFormatter.prototype.curency_string_from_number = function(number) {
-        var currency_format = this.currency_format;
-        var currency_symbol = this.currency_symbol;
-        var maximum_fraction_digits = this.maximum_fraction_digits;
-        if (maximum_fraction_digits < 0) {
-            this.maximum_fraction_digits = this.currency_maximum_fraction_digits;
+    NumberFormatter.prototype.curencyStringFromNumber = function(number) {
+        var currencyFormat = this.currencyFormat;
+        var currencySymbol = this.currencySymbol;
+        var maximumFractionDigits = this.maximumFractionDigits;
+        if (maximumFractionDigits < 0) {
+            this.maximumFractionDigits = this.currencyMaximumFractionDigits;
         }
-        var formatted_number = this.string_from_number(number);
-        this.maximum_fraction_digits = maximum_fraction_digits;
+        var formattedNumber = this.stringFromNumber(number);
+        this.maximumFractionDigits = maximumFractionDigits;
 
-        formatted_number = currency_format.replace('#', formatted_number).replace('\u00a4', currency_symbol);
+        formattedNumber = currencyFormat.replace('#', formattedNumber).replace('\u00a4', currencySymbol);
 
-        return formatted_number;
+        return formattedNumber;
     };
 
-    Number.prototype.string_from_number = function(locale) {
+    Number.prototype.stringFromNumber = function(locale) {
         var formatter = new NumberFormatter();
-        formatter.set_locale(locale);
-        return formatter.string_from_number(this);
+        formatter.setLocale(locale);
+        return formatter.stringFromNumber(this);
     };
 
-    Number.prototype.format_as_currency = function(currency, locale) {
+    Number.prototype.formatAsCurrency = function(currency, locale) {
         var formatter = new NumberFormatter();
-        if (!_test_is_empty_string(locale)) {
-            formatter.set_locale(locale);
+        if (!_isEmptyString(locale)) {
+            formatter.setLocale(locale);
         }
-        if (!_test_is_empty_string(currency)) {
-            formatter.set_currency_code(currency);
+        if (!_isEmptyString(currency)) {
+            formatter.setCurrencyCode(currency);
         }
-        return formatter.curency_string_from_number(this);
+        return formatter.curencyStringFromNumber(this);
     };
 
-    function _test_is_empty_string(value) {
+    function _isEmptyString(value) {
         return !(typeof value === 'string' && value.length !== 0);
     }
 
