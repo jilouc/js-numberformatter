@@ -212,7 +212,7 @@
         return res;
     };
 
-    NumberFormatter.prototype.curencyStringFromNumber = function(number) {
+    NumberFormatter.prototype.currencyStringFromNumber = function(number) {
         var currencyFormat = this.currencyFormat;
         var currencySymbol = this.currencySymbol;
         var maximumFractionDigits = this.maximumFractionDigits;
@@ -241,7 +241,7 @@
         if (!_isEmptyString(currency)) {
             formatter.setCurrencyCode(currency);
         }
-        return formatter.curencyStringFromNumber(this);
+        return formatter.currencyStringFromNumber(this);
     };
 
     function _isEmptyString(value) {
