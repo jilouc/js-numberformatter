@@ -1,0 +1,16 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<title>Test AMD import</title>
+	<script type="text/javascript" src="require.js"></script>
+</head>
+<body>
+	<h1>Testing import with requirejs</h1>
+	<script type="text/javascript">
+		requirejs(["../../numberformatter"], function(NF) {
+    		document.body.innerHTML += ("<h3>NumberFormatter module loaded: " + (typeof NF === 'function') + "</h3>");
+    		document.body.innerHTML += ("<h3>Formatting 12345.678 in en-US: " + (12345.678).stringFromNumber('en-US') + "</h3>");
+		});
+	</script>
+</body>
+</html>
