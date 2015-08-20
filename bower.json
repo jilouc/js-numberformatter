@@ -6,10 +6,14 @@
     "Jean-Luc Dagon <jldagon@cocoapps.fr>"
   ],
   "description": "Number and currency formatter inspired by Cocoa's NSNumberFormatter. Supports a wide range of locales.",
-  "main": "numberformatter.js",
+  "main": [
+    "locale.js",
+    "numberformatter.js"
+  ],
   "moduleType": [
     "es6",
-    "node"
+    "node",
+    "amd"
   ],
   "keywords": [
     "number",
