@@ -11,9 +11,32 @@ The output is properly localized in the given locale (and defaults to the curren
 * **grouping separator**: symbol between logical groups in the number (e.g. `,` in the USA, but ` ` in France)
 * **grouping size**: size of these logical groups. Usually 3, but certain locales define a…
 * **secondary grouping size**: in some locales, the grouping size for larger numbers may be different. For a secondary grouping size of 2 and a grouping size of 3, `123456789` would be formatted as `12,34,56,789` for example.
-* **script**: not every locale is using a Latin script. In Egypt, `123,456` is written `١٢٣٬٤٥٦`.
+* **numbers alphabet**: not every locale is using a Latin script. In Egypt, `123,456` is written `١٢٣٬٤٥٦`.
 
 The currency symbol also depends on the locale: the symbol used in the country where the currency is in use (local symbol) is usually different from the one in usage in different countries. For example, the US dollar symbol is `$` in the USA, but `$US` in France. 
+
+## Install
+
+We currently support basic browser integration
+
+```html
+<script src="./locale.js" type="text/javascript"></script>
+<script src="./numberformatter.js" type="text/javascript"></script>
+```
+
+It can also be used through AMD requirejs:
+
+```js
+requirejs('numberformatter', function(NumberFormatter) {
+    ...
+} 
+```    
+
+and as a Node module
+
+```js
+require('./numberformatter') // has locale as dependency
+```    
 
 ## Basic usage
 
@@ -95,7 +118,6 @@ This includes:
 * `positivePrefix`
 * `negativePrefix`
 * `script` with one of the following values: Latin, Arabic, Devanagari, Urdu, Myanmar, Bengali, Tibetan.	
-
 Locale and currency code can be changed using the setters:
 
 ```js
@@ -104,9 +126,25 @@ formatter.setLocale('de-de');
 formatter.setCurrencyCode('CNY');
 ```
 
-## Scripts
+In some locales, you can have multiple scripts support. For example the Uzbek language (`uz`) has Latin and Arabic. In these cases, you may specify the script:
 
-NumberFormatter currently supports the following scripts:
+```js
+(1234.5).stringFromNumber('uz', 'Latn'); // "1 234,5"
+(1234.5).stringFromNumber('uz', 'Arab'); // "۱٬۲۳۴٫۵"
+```
+
+Specifying a script not supported by the locale will result in a warning (if `Locale.DEBUG` is enabled):
+
+```js
+(1234.5).stringFromNumber('uz', 'Hans');
+// [Warning] Script Hans is not available for the locale "uz". 
+// Available scripts are: [Arab, Cyrl, Latn]. 
+// Defaulting to Latn.
+```
+
+## Numbers alphabet
+
+NumberFormatter currently supports the following alphabets:
 
 * Latin: `0 1 2 3 4 5 6 7 8 9`
 * Arabic: `٠ ١ ٢ ٣ ٤ ٥ ٦ ٧ ٨ ٩`
@@ -132,6 +170,7 @@ NumberFormatter currently supports the following scripts:
 (123456789.12345).stringFromNumber('dz');
   "༡༢,༣༤,༥༦,༧༨༩.༡༢༣༤༥" // Tibetan
 ```
+
 
 ## References
 
