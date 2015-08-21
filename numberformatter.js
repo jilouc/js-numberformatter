@@ -181,9 +181,9 @@
     NumberFormatter.symbolForCurrencyInLocale = function symbolForCurrencyInLocale(currencyCode, localeIdentifier, scriptName) {
         if (_isEmptyString(localeIdentifier)) {
             localeIdentifier = root.Locale.detectCurrentLocale();
+        } else {
+            localeIdentifier = localeIdentifier.toLowerCase();
         }
-        localeIdentifier = localeIdentifier.toLowerCase();
-
         var currencyInfo = CURRENCIES_INFO[currencyCode];
         var availableLocalSymbols = currencyInfo[1];
         this.currencyMaximumFractionDigits = currencyInfo[0];
